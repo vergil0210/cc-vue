@@ -1,0 +1,34 @@
+@font-face {
+  font-family: "iconfont";
+  src: url('iconfont.eot?t=1556109357326'); /* IE9 */
+  src: url('iconfont.eot?t=1556109357326#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAANcAAsAAAAAB1gAAAMNAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDBgqCOII3ATYCJAMMCwgABCAFhG0HQBuHBlGUzckA2Y/CuHk5ot2yR/RZlA60ohN9nP27EVBr6B4EABWiJNBRAKCiImOrWmUqDJBux1co1tW//2sboiXt9TOIJNOk/WT/xHfDXqdlUiJECI2BdTZA1REJjmSF2paNar6rSzuU+AjlfZ5jpkvwvVF+m82lMqwxEmwTHFBE2JrsDuSA/BbZXYFYT75MQKVemtr65v4EXZk9KyA83vk2dAsmuSM/KBeUNmzMwhslyuOr+B2vo98P/8yEcqKSxF64db3wYPxz5udKeilqDgMC8XQOiNtIGAMy4bjRtauRpMY0VOqKplEOSmVBnCpaFEQiQ1O60X+8SChl51aDIZyO/JzxuAR+rtwhggRKkXEK1MZYx+F9a6TIqkUXMByBoDAABEEwETJPh3c1jsE3rt0GPL9hNLiv883hV4DULujFx12hHQAOZL5AYSzuSAxBbYREih/I5OEdFzG6ZQN4yNUPxU4HlXL4gcCX0cEuudW66AqY/Pzdfy+kC2bf94P7c4s1FxWrqqjbDUXkFYFWRVfQfDwQKzpFLGVpVK+LTDt8okhPwccOVBqVDXO/4MTnOHT17r42wHB/78urlI8Hq05F2UrlTEV0ov5iRvVftQ86wm+dsqemlVRD8Tetx68/5W80f8vvTurm/5dXZfDjZ348ChZ/M7hF+Sm7A79ADGzJhtQ2p6yJPJHlSWY4HREskLwKtq/Rj1/TAs4lKNeSISrTg6RcHzFTx1CiyhxKlVtCpVGr7VWasIaQKzDihRDUeyOq9RlJvQ8xU78o0eqPUvUhodJ2aDqwykC4q1x7IlvIQ+eJoZtnyrVKP84/kH9NbM5LI8aFuAqjOJAry9kVZcRTLKlu/lBEoeI8xSW6jpIkx4LziFwxApFiZCrSTV8y3DyFvjWM2ATxIMcTCrlyGRX0Fv3Kzx8Q31XCxh0Vdd4Lwiph/2jAYAGIK1UGqriVeyo3viEhFKSwXAotkYMkTiqHiuZxEeIShoAjURgxSScFVRnLa9IXKBRrsG9JIYYUsornu8x3Qspu/SRoZwAAAAA=') format('woff2'),
+  url('iconfont.woff?t=1556109357326') format('woff'),
+  url('iconfont.ttf?t=1556109357326') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */ url('iconfont.svg?t=1556109357326#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="alicon"], [class*=" alicon"] {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.aliconxingbienv:before {
+  content: "\e632";
+}
+
+.aliconxingbienan:before {
+  content: "\e641";
+}
+
+
+

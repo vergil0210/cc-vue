@@ -1,0 +1,47 @@
+debug: false
+
+spring:
+  profiles:
+    active: dev
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show_sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+#    禁用springBoot自动配置数据源
+#  autoconfigure:
+#    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
+---
+#开发环境
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/course_selection?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=UTC
+    username: root
+    password: 123123
+    driver-class-name: com.mysql.jdbc.Driver
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    maxIdle: 15
+    minIdle: 5
+    removeAbandoned: true
+    removeAbandonedTimeout: 180
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    validationQuery: select SYSDATE() from dual
+    validationQueryTimeout: 1
+    timeBetweenEvictionRunsMillis: 30000
+    numTestsPerEvictionRun: 20
+  devtools:
+    restart:
+      enabled: true #是否开启热部署
+      additional-paths: #设置重启目录
+        - src/main/java
+        - src/test/java
+#      exclude: src/main/resources #页面不加缓存，修改即生效
+  server:
+    port: 8080
