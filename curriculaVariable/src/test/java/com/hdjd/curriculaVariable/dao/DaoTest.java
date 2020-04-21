@@ -42,8 +42,8 @@ public class DaoTest {
     @Transactional
     public void studentDaoTest01(){
 //        List<CStudentEntity> all = studentDao.findAll();
-        CStudentEntity cStudentEntity = studentDao.findById("2016211001000814").get();
-        System.out.println(cStudentEntity);
+//        CStudentEntity cStudentEntity = studentDao.findById("2016211001000814").get();
+//        System.out.println(cStudentEntity);
 //
 //        List<CGradeEntity> all = gradeDao.findAll();
 //        System.out.println(all);
@@ -112,6 +112,8 @@ public class DaoTest {
 //                return criteriaBuilder.and(list.toArray(new Predicate[list.size()]));
 //            }
 //        };
+        List<CGradeEntity> students = gradeDao.findByStudent("2016211001000814");
+        System.out.println();
     }
 
 }

@@ -10,8 +10,17 @@ public class CurriculaVariableListModel {
     private int credit;
     private int amountTime;
     private String coId;
+    private String tcId;
     private String status;
     private List<CvlChildModel> childModels;
+
+    public String getTcId() {
+        return tcId;
+    }
+
+    public void setTcId(String tcId) {
+        this.tcId = tcId;
+    }
 
     public String getCoName() {
         return coName;

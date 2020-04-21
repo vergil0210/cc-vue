@@ -18,6 +18,13 @@ public class CStudentEntity {
     private String phone;
     private Set<CGradeEntity> grades;
 
+    public CStudentEntity() {
+    }
+
+    public CStudentEntity(String studentId) {
+        this.studentId = studentId;
+    }
+
     @Id
     @Column(name = "student_id")
     public String getStudentId() {

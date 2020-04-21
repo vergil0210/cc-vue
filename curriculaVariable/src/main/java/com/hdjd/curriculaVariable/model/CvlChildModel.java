@@ -8,6 +8,15 @@ public class CvlChildModel {
     private int rate;
     private int maxUser;
     private int currentUser;
+    private String tcId;
+
+    public String getTcId() {
+        return tcId;
+    }
+
+    public void setTcId(String tcId) {
+        this.tcId = tcId;
+    }
 
     public long getId() {
         return id;

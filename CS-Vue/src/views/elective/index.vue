@@ -1,22 +1,8 @@
 <template>
   <div class="app-container">
-    <div class="filter-container">
-      <el-input
-        v-model="listQuery.nameid"
-        placeholder="Name/ID"
-        style="width: 400px;"
-        class="filter-item"
-        clearable
-        @keyup.enter.native="handleFilter"
-      />
-      <el-select v-model="listQuery.semester" placeholder="Semester" clearable class="filter-item">
-        <el-option v-for="item in 12" :key="item" :label="item" :value="item" />
-      </el-select>
-      <el-select v-model="listQuery.credit" placeholder="Credit" clearable class="filter-item">
-        <el-option v-for="item in credits" :key="item" :label="item" :value="item" />
-      </el-select>
+    <div class="filter-container" style="text-align: right">
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
-        Search
+        refresh
       </el-button>
     </div>
     <el-table
@@ -30,21 +16,29 @@
       tooltip-effect="dark"
       @sort-change="sortChange"
     >
-      <el-table-column align="center" sortable label="ID">
+      <el-table-column  v-if="showHidden" label="课程号" sortable align="center" width="180">
         <template slot-scope="scope">
-          <span>{{ scope.row.id }}</span>
+          <span style="color:red;">{{ scope.row.coId }}</span>
         </template>
       </el-table-column>
-
-      <el-table-column min-width="150px" align="center" label="课程">
-        <template slot-scope="scope">
-          <span>{{ scope.row.name }}</span>
+      <el-table-column label="课程" min-width="150px">
+        <template slot-scope="{row}">
+          <span>{{ row.coName }}</span>
         </template>
       </el-table-column>
-
-      <el-table-column width="100" align="center" label="教师">
+      <el-table-column label="教师" width="100" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.teacher }}</span>
+          <span>{{ scope.row.teaName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="开始时间" align="center" width="180">
+        <template slot-scope="scope">
+          <span>第{{ scope.row.startTime }}周</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="结束时间" prop="id" align="center" width="180">
+        <template slot-scope="scope">
+          <span>第{{ scope.row.endTime }}周</span>
         </template>
       </el-table-column>
       <el-table-column label="学期" align="center">
@@ -52,19 +46,27 @@
           <span>{{ scope.row.semester }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="评分" width="100">
-        <template slot-scope="scope">
-          <svg-icon v-for="n in +scope.row.rate" :key="n" icon-class="star" class="meta-item__icon" />
-        </template>
-      </el-table-column>
-      <el-table-column label="本人评分" width="100">
-        <template v-if="scope.row.irate>0" slot-scope="scope">
-          <svg-icon v-for="n in +scope.row.irate" :key="n" icon-class="star" class="meta-item__icon" />
-        </template>
-      </el-table-column>
       <el-table-column label="学分" width="100" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.credit }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="最大人数" align="center" width="100">
+        <template slot-scope="{row}">
+          <span v-if="row.maxUser">{{ row.maxUser }}</span>
+          <span v-else>0</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="当前人数" align="center" width="100">
+        <template slot-scope="{row}">
+          <span v-if="row.currentUser">{{ row.currentUser }}</span>
+          <span v-else>0</span>
+        </template>
+      </el-table-column>
+      <!-- todo 只读分数展示允许半星-->
+      <el-table-column label="评分" width="100">
+        <template slot-scope="scope">
+          <svg-icon v-for="n in scope.row.rate" :key="n" icon-class="star" class="meta-item__icon" />
         </template>
       </el-table-column>
       <el-table-column align="center" label="上课时间" min-width="110">
@@ -112,7 +114,9 @@
 import { fetchElectiveList } from '@/api/elective'
 import waves from '@/directive/waves' // waves directive
 // import { parseTime } from '@/utils'
-import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+import Pagination from '@/components/Pagination'
+import { getChosenList } from '@/api/apicourse'
+import { getToken } from '@/utils/auth'; // Secondary package based on el-pagination
 
 export default {
   name: 'Elective',
@@ -127,10 +131,6 @@ export default {
       listQuery: {
         page: 1,
         limit: 10,
-        nameid: undefined,
-        credit: undefined,
-        semester: undefined,
-        sort: '+id'
       },
       sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
       irateHidden: false
@@ -143,7 +143,7 @@ export default {
     // 获取课程信息
     getList() {
       this.listLoading = true
-      fetchElectiveList(this.listQuery).then(response => {
+      getChosenList({ data: this.listQuery, token: getToken() }).then(response => {
         const items = response.data.items
         // console.log(items)
         for (const i in items) {

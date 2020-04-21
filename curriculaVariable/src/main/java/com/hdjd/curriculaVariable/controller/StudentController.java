@@ -1,12 +1,9 @@
 package com.hdjd.curriculaVariable.controller;
 
-import com.hdjd.curriculaVariable.model.CurriculaVariableListModel;
-import com.hdjd.curriculaVariable.model.Response;
+import com.hdjd.curriculaVariable.model.*;
 import com.hdjd.curriculaVariable.service.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Map;
@@ -30,5 +27,15 @@ public class StudentController {
         String grade = userInfo.get("grade");
         String college = userInfo.get("college");
         return studentService.getCourseList(token);
+    }
+
+    @PutMapping("course/putAll")
+    public Response<Integer> createGradeList(@RequestBody Request<String> request){
+        return studentService.createGradeList(request);
+    }
+
+    @PostMapping("course/getChosenList")
+    public Response<CurriculaListModel> getChosenList(@RequestBody Request<PageModel> request){
+        return studentService.getChosenList(request);
     }
 }

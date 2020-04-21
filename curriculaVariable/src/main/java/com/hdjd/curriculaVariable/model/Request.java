@@ -5,6 +5,15 @@ import java.util.List;
 public class Request<T> {
     private T data;
     private List<T> list;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public List<T> getList() {
         return list;

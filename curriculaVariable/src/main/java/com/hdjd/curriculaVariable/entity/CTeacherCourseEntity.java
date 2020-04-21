@@ -21,6 +21,13 @@ public class CTeacherCourseEntity implements Serializable {
     private int endTime;
     private String college;
 
+    public CTeacherCourseEntity() {
+    }
+
+    public CTeacherCourseEntity(String tcId) {
+        this.tcId = tcId;
+    }
+
     @Id
     @Column(name = "tc_id")
     public String getTcId() {

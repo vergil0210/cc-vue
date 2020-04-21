@@ -2,36 +2,9 @@
   <div class="app-container">
     <div style="float:left;padding-right: 5%">
       <span>当前选择科目：<el-tag>{{ count }}</el-tag>  总学分：<el-tag type="success">{{ creditSum }}</el-tag> </span>
-      <el-button type="primary" icon="el-icon-check" style="margin: 0 25px" @click="open()">提交</el-button>
+      <el-button type="primary" icon="el-icon-check" style="margin: 0 25px" @click="submit()">提交</el-button>
     </div>
-    <div class="filter-container">
-      <el-input
-        v-model="listQuery.name"
-        placeholder="Name"
-        style="width: 200px;"
-        class="filter-item"
-        clearable
-        @keyup.enter.native="handleFilter"
-      />
-      <el-input
-        v-model="listQuery.credit"
-        placeholder="Credit"
-        style="width: 100px;"
-        class="filter-item"
-        clearable
-        @keyup.enter.native="handleFilter"
-      />
-      <el-select v-model="listQuery.rate" placeholder="Rate" clearable style="width: 90px" class="filter-item">
-        <el-option v-for="item in importanceOptions" :key="item" :label="item" :value="item" />
-      </el-select>
-      <el-select v-model="listQuery.remain" placeholder="remain" clearable class="filter-item" style="width: 130px">
-        <el-option
-          v-for="item in statusOptions"
-          :key="item"
-          :label="item"
-          :value="item"
-        />
-      </el-select>
+    <div class="filter-container" style="text-align: right">
       <el-button v-if="activeName==='2'" v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         Search
       </el-button>
@@ -111,14 +84,14 @@
           </el-table>
         </template>
       </el-table-column>
-      <el-table-column
-        type="selection"
-        width="55"
-        align="center"
-      />
-      <el-table-column align="center" sortable label="ID" width="80">
+<!--      <el-table-column-->
+<!--        type="selection"-->
+<!--        width="55"-->
+<!--        align="center"-->
+<!--      />-->
+      <el-table-column align="center" sortable label="ID" width="200px">
         <template slot-scope="scope">
-          <span>{{ scope.row.id }}</span>
+          <span>{{ scope.row.coId }}</span>
         </template>
       </el-table-column>
 
@@ -304,6 +277,7 @@
 import { fetchCourseChose, fetchRecList } from '@/api/course'
 import waves from '@/directive/waves' // waves directive
 // import { parseTime } from '@/utils'
+import { choseCourse } from '@/api/apicourse'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 export default {
@@ -326,6 +300,7 @@ export default {
       recList: null,
       recTotal: 0,
       list: null,
+      pushList: [],
       total: 0,
       listLoading: true,
       listQuery: {
@@ -349,6 +324,34 @@ export default {
     this.getList()
   },
   methods: {
+    submit() {
+      // 补充token注入
+      const token = ''
+      if (this.count === this.creditSum) {
+        choseCourse({ list: this.pushList, token: token }).then(response => {
+          if (response.data.msg) {
+            this.$notify.error({
+              title: 'error',
+              message: response.data.msg,
+              duration: 2000
+            })
+          } else {
+            this.$notify({
+              title: 'Success',
+              message: 'Created Successfully',
+              type: 'success',
+              duration: 2000
+            })
+          }
+        })
+      } else {
+        this.$notify.error({
+          title: 'error',
+          message: '已选课程学分未达到标准，请继续选课',
+          duration: 2000
+        })
+      }
+    },
     // 获取课程信息
     getList() {
       this.listLoading = true
@@ -364,6 +367,9 @@ export default {
         let credits = 0
         for (const item of this.recList) {
           credits += item.credit
+          if (item.tcId) {
+            this.pushList.push(item.tcId)
+          }
         }
         this.creditSum = credits
         this.listLoading = false
@@ -378,9 +384,17 @@ export default {
       //   this.listLoading = false
       // })
     },
-    handleModifyStatus(row, status) {
-
-    }, handleFilter() {
+    handleModifyStatus(row, parentRow) {
+      this.pushList.push(row.tcId)
+      parentRow.tcId = row.tcId
+      parentRow.status = '已选'
+    },
+    returnCourse(row) {
+      this.pushList.splice(this.pushList.indexOf(row.tcId), 1)
+      row.status = '待选'
+      row.tcId = ''
+    },
+    handleFilter() {
       this.listQuery.page = 1
       this.getList()
     }, sortByWeeks(list) {
